@@ -3,6 +3,7 @@ const client = require('../lib/client');
 const animals = require('./animals.js');
 const usersData = require('./users.js');
 const { getEmoji } = require('../lib/emoji.js');
+const todos = require('./todos.js');
 
 run();
 
@@ -31,6 +32,16 @@ async function run() {
                     VALUES ($1, $2, $3);
                 `,
         [animal.name, animal.cool_factor, user.id]);
+      })
+    );
+
+    await Promise.all(
+      todos.map(todo => {
+        return client.query(`
+                    INSERT INTO todos (todo, completed, user_id)
+                    VALUES ($1, $2, $3)
+        `,
+        [todo.todo, todo.completed, user.id]);
       })
     );
     

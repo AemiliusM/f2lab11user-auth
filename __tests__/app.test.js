@@ -58,5 +58,35 @@ describe('app routes', () => {
 
       expect(data.body).toEqual(expectation);
     });
+    test('returns todos', async() => {
+
+      const expectation = [
+        {
+          'id': 1,
+          'todo' : 'take out the trash',
+          'completed' : false,
+          'user_id':1
+        },
+        {
+          'id': 2,
+          'todo': 'wash the dishes',
+          'completed': false,
+          'user_id': 1
+        },
+        {
+          'id': 3,
+          'todo': 'wash clothes',
+          'completed': false,
+          'user_id': 1
+        }
+      ];
+
+      const data = await fakeRequest(app)
+        .get('/todos')
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      expect(data.body).toEqual(expectation);
+    });
   });
 });
