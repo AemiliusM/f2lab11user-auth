@@ -65,19 +65,19 @@ describe('app routes', () => {
           'id': 1,
           'todo' : 'take out the trash',
           'completed' : false,
-          'user_id':1
+          'user_id':2
         },
         {
           'id': 2,
           'todo': 'wash the dishes',
           'completed': false,
-          'user_id': 1
+          'user_id': 2
         },
         {
           'id': 3,
           'todo': 'wash clothes',
           'completed': false,
-          'user_id': 1
+          'user_id': 2
         }
       ];
 
