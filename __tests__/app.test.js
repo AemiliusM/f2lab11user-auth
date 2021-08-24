@@ -89,7 +89,6 @@ describe('app routes', () => {
         .send(updatedTodo)
         .expect('Content-Type', /json/)
         .expect(200);
-        console.log(updatedTodo);
       expect(data.body.completed).toEqual(updatedTodo.completed);
     }, 10000);
 
