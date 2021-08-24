@@ -28,35 +28,71 @@ describe('app routes', () => {
       return client.end(done);
     });
 
-    test('returns animals', async() => {
+    test('returns todos', async() => {
 
       const expectation = [
         {
           'id': 1,
-          'name': 'bessie',
-          'cool_factor': 3,
-          'owner_id': 1
+          'todo' : 'take out the trash',
+          'completed' : false,
+          'user_id':2
         },
         {
           'id': 2,
-          'name': 'jumpy',
-          'cool_factor': 4,
-          'owner_id': 1
+          'todo': 'wash the dishes',
+          'completed': false,
+          'user_id': 2
         },
         {
           'id': 3,
-          'name': 'spot',
-          'cool_factor': 10,
-          'owner_id': 1
+          'todo': 'wash clothes',
+          'completed': false,
+          'user_id': 2
         }
       ];
 
       const data = await fakeRequest(app)
-        .get('/animals')
+        .get('/api/todos')
+        .set('Authorization', token)
         .expect('Content-Type', /json/)
         .expect(200);
 
       expect(data.body).toEqual(expectation);
     });
+
+    test('post /todo creates new todo', async () => {
+      await fakeRequest(app).post('/api/todos');
+      const newTodo = {
+        todo:'feed cats',
+        completed:false,
+      };
+      const data = await fakeRequest(app)
+        .post('/api/todos')
+        .send(newTodo)
+        .set('Authorization', token)
+        .expect('Content-Type', /json/)
+        .expect(200);
+      expect(data.body.todo).toEqual(newTodo.todo);
+      expect(data.body.id).toBeGreaterThan(0);
+      
+    });
+
+    
+    test('put /api/todos/:id updates todo', async () => {
+      const updatedTodo = {
+        todo: 'wash clothes',
+        completed: true,
+      };
+      const data = await fakeRequest(app)
+        .put('/api/todos/3')
+        .set('Authorization', token)
+        .send(updatedTodo)
+        .expect('Content-Type', /json/)
+        .expect(200);
+        console.log(updatedTodo);
+      expect(data.body.completed).toEqual(updatedTodo.completed);
+    }, 10000);
+
+
   });
 });
