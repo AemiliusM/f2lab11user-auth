@@ -63,7 +63,6 @@ describe('app routes', () => {
     test('post /todo creates new todo', async () => {
       await fakeRequest(app).post('/api/todos');
       const newTodo = {
-        
         todo:'feed cats',
         completed:false,
       };
@@ -77,6 +76,23 @@ describe('app routes', () => {
       expect(data.body.id).toBeGreaterThan(0);
       
     });
+
+    
+    test('put /api/todos/:id updates todo', async () => {
+      const updatedTodo = {
+        todo: 'wash clothes',
+        completed: true,
+      };
+      const data = await fakeRequest(app)
+        .put('/api/todos/3')
+        .set('Authorization', token)
+        .send(updatedTodo)
+        .expect('Content-Type', /json/)
+        .expect(200);
+        console.log(updatedTodo);
+      expect(data.body.completed).toEqual(updatedTodo.completed);
+    }, 10000);
+
 
   });
 });
