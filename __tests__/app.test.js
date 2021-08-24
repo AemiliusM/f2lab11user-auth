@@ -68,8 +68,8 @@ describe('app routes', () => {
       };
       const data = await fakeRequest(app)
         .post('/api/todos')
-        .send(newTodo)
         .set('Authorization', token)
+        .send(newTodo)
         .expect('Content-Type', /json/)
         .expect(200);
       expect(data.body.todo).toEqual(newTodo.todo);
@@ -89,7 +89,6 @@ describe('app routes', () => {
         .send(updatedTodo)
         .expect('Content-Type', /json/)
         .expect(200);
-        console.log(updatedTodo);
       expect(data.body.completed).toEqual(updatedTodo.completed);
     }, 10000);
 
